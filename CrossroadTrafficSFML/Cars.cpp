@@ -144,8 +144,7 @@ void Cars::replaceOutOfScreenCars() {
 
     for (auto car{ mCarsCont.begin() }; car != mCarsCont.end(); ++car) {
         if (!(*car)->isInScreen(ScreenInfo.WIDTH, ScreenInfo.HEIGHT)) {
-            mCarsCont.erase(car);
-            --car;
+            car = mCarsCont.erase(car);
             spawnCarAnywhere();
         }
     }
