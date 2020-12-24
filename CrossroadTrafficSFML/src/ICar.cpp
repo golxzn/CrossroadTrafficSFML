@@ -6,19 +6,16 @@ Rectangle ICar::futurePosition() const {
         mRect.width() + mRange, mRect.height() + mRange
     };
 
-    switch (mDir) {
+    switch(mDir) {
         case eDirection::UP:
             futureRectanglePosition.move(.0f, -mSpeed);
             break;
-
         case eDirection::DOWN:
             futureRectanglePosition.move(.0f, mSpeed);
             break;
-
         case eDirection::LEFT:
             futureRectanglePosition.move(-mSpeed, .0f);
             break;
-
         case eDirection::RIGHT:
             futureRectanglePosition.move(mSpeed, .0f);
             break;
@@ -33,54 +30,50 @@ bool ICar::haveToPassOtherCar(const ICar& other) const {
     auto otherDir{ other.mDir };
 
 // Pass car in front of
-    if (mDir == otherDir) {
+    if(mDir == otherDir) {
         switch (mDir) {
             case Dir::UP:
                 return mRect.y() > other.rect().y();
-
             case Dir::DOWN:
                 return mRect.y() < other.rect().y();
-
             case Dir::RIGHT:
                 return mRect.x() < other.rect().x();
-
             case Dir::LEFT:
                 return mRect.x() > other.rect().x();
-
         }
     }
 
 // Pass car from right
-    if (mDir == Dir::UP && otherDir == Dir::LEFT &&
+    if(mDir == Dir::UP && otherDir == Dir::LEFT &&
         mRect.y() > other.mRect.y() + other.mRect.height())
         return true;
 
-    if (mDir == Dir::DOWN && otherDir == Dir::RIGHT &&
+    if(mDir == Dir::DOWN && otherDir == Dir::RIGHT &&
         mRect.y() + mRect.height() < other.mRect.y())
         return true;
 
-    if (mDir == Dir::RIGHT && otherDir == Dir::UP &&
+    if(mDir == Dir::RIGHT && otherDir == Dir::UP &&
         mRect.x() + mRect.width() < other.mRect.x())
         return true;
 
-    if (mDir == Dir::LEFT && otherDir == Dir::DOWN &&
+    if(mDir == Dir::LEFT && otherDir == Dir::DOWN &&
         mRect.x() > other.mRect.x() + other.mRect.width())
         return true;
 
 // Pass car from left who already into the crossroad
-    if (mDir == Dir::UP && otherDir == Dir::RIGHT &&
+    if(mDir == Dir::UP && otherDir == Dir::RIGHT &&
         mRect.x() < other.mRect.x() + other.mRect.width())
         return true;
 
-    if (mDir == Dir::DOWN && otherDir == Dir::LEFT &&
+    if(mDir == Dir::DOWN && otherDir == Dir::LEFT &&
         mRect.x() + mRect.width() > other.mRect.x())
         return true;
 
-    if (mDir == Dir::RIGHT && otherDir == Dir::DOWN &&
+    if(mDir == Dir::RIGHT && otherDir == Dir::DOWN &&
         mRect.y() < other.mRect.y() + other.mRect.height())
         return true;
 
-    if (mDir == Dir::LEFT && otherDir == Dir::UP &&
+    if(mDir == Dir::LEFT && otherDir == Dir::UP &&
         mRect.y() + mRect.height() > other.mRect.y())
         return true;
 
@@ -93,19 +86,16 @@ bool ICar::isInScreen(float width, float height) const {
 }
 
 void ICar::move() {
-    switch (mDir) {
+    switch(mDir) {
         case eDirection::UP:
             mRect.move(.0f, -mSpeed);
             break;
-
         case eDirection::DOWN:
             mRect.move(.0f, mSpeed);
             break;
-
         case eDirection::LEFT:
             mRect.move(-mSpeed, .0f);
             break;
-
         case eDirection::RIGHT:
             mRect.move(mSpeed, .0f);
             break;
