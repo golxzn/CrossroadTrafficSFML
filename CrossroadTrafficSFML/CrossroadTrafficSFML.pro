@@ -1,5 +1,5 @@
 #======================= Config ========================#
-QT += core gui widgets
+QT += core gui widgets opengl
 CONFIG += c++17
 
 #======================== Cross ========================#
@@ -16,36 +16,45 @@ message("[Cross] The target platform is $$PLATFORM")
 
 #====================== Libraries ======================#
 
-SFML_ROOT_DIR = $${PWD}/lib/$$PLATFORM/SFML
+SFML_ROOT_DIR = $${PWD}/lib/SFML-2.5.1-$$PLATFORM
 
-# D:\LIBRARIES\SFML-2.5.1(MinGW-7.3.0)\include
+INCLUDEPATH += $$SFML_ROOT_DIR/include
+DEPENDPATH  += $$SFML_ROOT_DIR/include
 
-INCLUDEPATH += $${SFML_ROOT_DIR}/include
-DEPENDPATH  += $${SFML_ROOT_DIR}/include
+LIBS += -L$$SFML_ROOT_DIR/lib/
 
-LIBS += -L${SFML_ROOT_DIR}/lib/
+if(contains(PLATFORM, "linux")) {
+    SFML_LIBS_DEBUG = \
+        -lsfml-audio \
+        -lsfml-system \
+        -lsfml-window \
+        -lsfml-graphics
+    SFML_LIBS_RELEASE = $$SFML_LIBS_DEBUG
+} else {
+    SFML_LIBS_DEBUG = \
+        -lsfml-main \
+        -lsfml-audio \
+        -lsfml-system \
+        -lsfml-window \
+        -lsfml-graphics
+    SFML_LIBS_RELEASE = \
+        -lsfml-main-d \
+        -lsfml-audio-d \
+        -lsfml-window-d \
+        -lsfml-system-d \
+        -lsfml-graphics-d
+}
 
 CONFIG(debug, debug|release) {
-    LIBS += -lsfml-main-d \
-            -lsfml-audio-d \
-            -lsfml-window-d \
-            -lsfml-system-d \
-            -lsfml-graphics-d
+    LIBS += $$SFML_LIBS_DEBUG
 }
 CONFIG(release, debug|release) {
-    LIBS += -lsfml-main \
-            -lsfml-audio \
-            -lsfml-system \
-            -lsfml-window \
-            -lsfml-graphics
+    LIBS += $$SFML_LIBS_RELEASE
 }
-
-#DEFINES += QT_DEPRECATED_WARNINGS
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 #======================= Sources =======================#
 
-INCLUDEPATH += ${PWD}/inc
+INCLUDEPATH += inc
 
 SOURCES += \
     src/ICar.cpp \
@@ -73,4 +82,5 @@ HEADERS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
 

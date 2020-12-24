@@ -10,7 +10,7 @@ Game::Game(int initCarsCount,
 
 int Game::start() {
 
-    if (!mComponents.setBackground("img/background.jpg"))
+    if (!mComponents.setBackground(GameComponents::defaultBackgroundImgPath()))
         return EXIT_FAILURE;
 
     bool isPaused{ false };
@@ -87,7 +87,7 @@ void Game::drawUI() {
 // If it was supposed to be better, I'd make an UI class
 
     sf::Font font;
-    font.loadFromFile("fonts/UI_font.ttf");
+    font.loadFromFile("res/fonts/UI_font.ttf");
 
     float fontSize{ 20.0f };
     float paddings{ 10.0f };
