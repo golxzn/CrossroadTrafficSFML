@@ -8,9 +8,10 @@ public:
                    unsigned windowWidth  = GameConstants::ScreenInfo.WIDTH,
                    unsigned windowHeight = GameConstants::ScreenInfo.HEIGHT);
 
-    bool setBackground(const char* filePath);
+    bool setBackground(const sf::String &filePath);
     void setCars(const Cars& cars);
 
+    static sf::String defaultBackgroundImgPath();
     sf::Texture backgroundTexture() const;
     sf::Sprite  background()        const;
 

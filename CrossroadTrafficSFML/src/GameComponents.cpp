@@ -8,9 +8,10 @@ GameComponents::GameComponents(int initCarsCount,
       mWindowHeight{ windowHeight }
 {}
 
-bool GameComponents::setBackground(const char* filePath) {
-    if (!mBackgroundTexture.loadFromFile(filePath))
+bool GameComponents::setBackground(const sf::String &filePath) {
+    if (!mBackgroundTexture.loadFromFile(filePath.toAnsiString())) {
         return false;
+    }
 
     sf::Vector2u TextureSize{ mBackgroundTexture.getSize() };
     sf::Vector2u WindowSize{ mWindowWidth, mWindowHeight };
@@ -22,6 +23,10 @@ bool GameComponents::setBackground(const char* filePath) {
     mBackground.setScale(ScaleX, ScaleY);
 
     return true;
+}
+
+sf::String GameComponents::defaultBackgroundImgPath() {
+    return sf::String{ "res/img/background.jpg" };
 }
 
 sf::Sprite GameComponents::background() const {
