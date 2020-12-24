@@ -2,32 +2,31 @@
 
 
 Cars::Cars(int initCarsCount, unsigned windowWidth, unsigned windowHeight)
-    : mWindowWidth{ windowWidth }, mWindowHeight{ windowHeight }
-{
+    : mWindowWidth{ windowWidth }, mWindowHeight{ windowHeight } {
     mCarsCont.reserve(initCarsCount);
 
-    for (int i{}; i < initCarsCount; ++i)
+    for(int i{}; i < initCarsCount; ++i) {
         spawnCarAnywhere();
+    }
 }
 
 void Cars::moveCars() {
-    for (auto& car : mCarsCont) {
+    for(auto& car : mCarsCont) {
         bool canCarMove{ true };
 
-        for (auto& other : mCarsCont) {
+        for(auto& other : mCarsCont) {
+            if(car == other || intoOncomingCar(*car, *other)) {
+                continue;
+            }
 
-            if (car == other)                   continue;
-            if (intoOncomingCar(*car, *other))  continue;
-
-            if (checkFutureIntersect(*car, *other) &&
-                car->haveToPassOtherCar(*other))
-            {
-                    canCarMove = false;
-                    break;
+            if(checkFutureIntersect(*car, *other) &&
+                car->haveToPassOtherCar(*other)) {
+                canCarMove = false;
+                break;
             }
         }
 
-        if (canCarMove) {
+        if(canCarMove) {
             car->move();
         }
     }
@@ -38,15 +37,17 @@ void Cars::moveCars() {
 void Cars::makeCarsFaster() {
     mCarsSpeed += GameConstants::defaultSpeedChain;
 
-    for (auto& car : mCarsCont)
+    for(auto& car : mCarsCont) {
         car->setSpeed(mCarsSpeed);
+    }
 }
 
 void Cars::makeCarsSlower() {
     mCarsSpeed -= GameConstants::defaultSpeedChain;
 
-    for (auto& car : mCarsCont)
+    for(auto& car : mCarsCont) {
         car->setSpeed(mCarsSpeed);
+    }
 }
 
 void Cars::spawnCarFromTop() {
@@ -102,7 +103,7 @@ void Cars::spawnCarFromRight() {
 }
 
 void Cars::spawnCarAnywhere() {
-    switch (getRandomNumber(1, 4)) {
+    switch(getRandomNumber(1, 4)) {
         case 1:
             spawnCarFromRight();
             break;
@@ -142,8 +143,8 @@ Cars::~Cars() {
 void Cars::replaceOutOfScreenCars() {
     using GameConstants::ScreenInfo;
 
-    for (auto car{ mCarsCont.begin() }; car != mCarsCont.end(); ++car) {
-        if (!(*car)->isInScreen(ScreenInfo.WIDTH, ScreenInfo.HEIGHT)) {
+    for(auto car{ mCarsCont.begin() }; car != mCarsCont.end(); ++car) {
+        if(!(*car)->isInScreen(ScreenInfo.WIDTH, ScreenInfo.HEIGHT)) {
             car = mCarsCont.erase(car);
             spawnCarAnywhere();
         }
@@ -158,10 +159,10 @@ int Cars::getRandomNumber(int start, int end) const {
 }
 
 bool Cars::checkFutureIntersect(const ICar& first,
-                                const ICar& second) const
-{
-    if (first.dir() == second.dir())
+                                const ICar& second) const {
+    if(first.dir() == second.dir()) {
         return first.futurePosition().intersects(second.rect());
+    }
 
     const Rectangle& firstFutPos{ first.futurePosition() };
     const Rectangle& seconFutPos{ second.futurePosition() };
@@ -170,8 +171,7 @@ bool Cars::checkFutureIntersect(const ICar& first,
     return result;
 }
 
-bool Cars::intoOncomingCar(const ICar& first, const ICar& second) const
-{
+bool Cars::intoOncomingCar(const ICar& first, const ICar& second) const {
     return (first.dir() == Dir::DOWN  && second.dir() == Dir::UP)   ||
            (first.dir() == Dir::LEFT  && second.dir() == Dir::RIGHT)||
            (first.dir() == Dir::RIGHT && second.dir() == Dir::LEFT) ||
@@ -180,17 +180,14 @@ bool Cars::intoOncomingCar(const ICar& first, const ICar& second) const
 
 void Cars::createRandomCar(Cars::Dir direction,
                            const Rectangle& rect,
-                           float speed, int fuel, float range)
-{
-    switch (getRandomNumber(1, 3)) {
+                           float speed, int fuel, float range) {
+    switch(getRandomNumber(1, 3)) {
         case 1:
             mCarsCont.emplace_back(std::make_unique<GasEngineCar>());
             break;
-
         case 2:
             mCarsCont.emplace_back(std::make_unique<ElectroEngineCar>());
             break;
-
         case 3:
             mCarsCont.emplace_back(std::make_unique<HybridEngineCar>());
             break;
