@@ -6,15 +6,17 @@ int GasEngineCar::fuel() const {
 }
 
 void GasEngineCar::refill(int count) {
-    if (-count <= mFuel)
+    if(-count <= mFuel) {
         mFuel += count;
-    else
+    } else {
         mFuel = 0;
+    }
 }
 
 void GasEngineCar::move() {
-    if (mFuel <= 0)
+    if(mFuel <= 0) {
         return;
+    }
 
     --mFuel;
     ICar::move();

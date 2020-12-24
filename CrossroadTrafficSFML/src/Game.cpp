@@ -1,54 +1,32 @@
 #include "Game.h"
 
-Game::Game(int initCarsCount,
-           unsigned windowWidth, unsigned windowHeight,
-           const char* title)
-    : mComponents(initCarsCount, windowWidth, windowHeight)
-{
+Game::Game(int initCarsCount, unsigned windowWidth, unsigned windowHeight, const sf::String &title)
+    : mComponents(initCarsCount, windowWidth, windowHeight), gamePaused{ true } {
     mWindow.create(sf::VideoMode{windowWidth, windowHeight}, title);
 }
 
+Game::~Game() {
+    mWindow.close();
+}
+
 int Game::start() {
-
-    if (!mComponents.setBackground(GameComponents::defaultBackgroundImgPath()))
+    bool success{ mComponents.setBackground(GameComponents::defaultBackgroundImgPath()) };
+    if(!success) {
         return EXIT_FAILURE;
+    }
 
-    bool isPaused{ false };
-
-    while (mWindow.isOpen()) {
-        sf::Event event;
-        while (mWindow.pollEvent(event)) {
-
-            if (event.type == sf::Event::Closed) {
+    sf::Event event;
+    gamePaused = false;
+    while(mWindow.isOpen()) {
+        while(mWindow.pollEvent(event)) {
+            if(EXIT_SUCCESS == eventHandler(event)) {
                 return EXIT_SUCCESS;
-            }
-
-            if (event.type == sf::Event::KeyPressed) {
-
-                switch (event.key.code) {
-                    case sf::Keyboard::Space:
-                        isPaused = !isPaused;
-                        break;
-
-                    case sf::Keyboard::V:
-                        isFururePositionVisable = !isFururePositionVisable;
-                        break;
-
-                    case sf::Keyboard::Up:
-                        mComponents.mCars.makeCarsFaster();
-                        break;
-
-                    case sf::Keyboard::Down:
-                        mComponents.mCars.makeCarsSlower();
-                        break;
-
-                    default: break;
-                }
-
             }
         }
 
-        if (!isPaused) mComponents.mCars.moveCars();
+        if(!gamePaused) {
+            mComponents.mCars.moveCars();
+        }
 
         drawMap();
     }
@@ -69,12 +47,12 @@ void Game::drawBG() {
     mWindow.draw(mComponents.background());
 }
 void Game::drawCars() {
-
-    for (auto& car : mComponents.mCars)
+    for(auto& car : mComponents.mCars) {
         mWindow.draw(*car);
+    }
 
-    if (isFururePositionVisable) {
-        for (auto& car : mComponents.mCars) {
+    if(isFururePositionVisable) {
+        for(auto& car : mComponents.mCars) {
             Rectangle futureRec{ car->futurePosition() };
             futureRec.setFillColor( sf::Color{ 50, 40, 100, 150 });
             mWindow.draw(futureRec);
@@ -121,7 +99,7 @@ void Game::drawUI() {
     mWindow.draw(Panel);
 
     short i{};
-    for (auto& line : description) {
+    for(auto& line : description) {
         line.setCharacterSize(fontSize);
         line.setPosition(paddings * 2, paddings + (fontSize + paddings) * i++);
         line.setFillColor(sf::Color::White);
@@ -130,6 +108,27 @@ void Game::drawUI() {
     }
 }
 
-Game::~Game() {
-    mWindow.close();
+int Game::eventHandler(const sf::Event &event) {
+    if(event.type == sf::Event::Closed) {
+        return EXIT_SUCCESS;
+    }
+
+    if(event.type == sf::Event::KeyPressed) {
+        switch (event.key.code) {
+            case sf::Keyboard::Space:
+                gamePaused = !gamePaused ;
+                break;
+            case sf::Keyboard::V:
+                isFururePositionVisable = !isFururePositionVisable;
+                break;
+            case sf::Keyboard::Up:
+                 mComponents.mCars.makeCarsFaster();
+                 break;
+            case sf::Keyboard::Down:
+                 mComponents.mCars.makeCarsSlower();
+                 break;
+            default: break;
+        }
+    }
+    return 1;
 }

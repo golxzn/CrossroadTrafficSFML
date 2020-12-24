@@ -24,8 +24,9 @@ float Rectangle::height() const {
 
 bool Rectangle::intersects(const Rectangle& other) const {
     // it's impossible to intersect with itself
-    if (this == &other)
+    if (this == &other) {
         return false;
+    }
 
     return (x() <= other.x() + other.width()  && x() + width()  >= other.x()) &&
            (y() <= other.y() + other.height() && y() + height() >= other.y());

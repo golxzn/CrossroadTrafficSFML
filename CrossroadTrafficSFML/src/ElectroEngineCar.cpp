@@ -6,15 +6,17 @@ int ElectroEngineCar::fuel() const {
 }
 
 void ElectroEngineCar::refill(int count) {
-    if ( -count <= mCharge)
+    if( -count <= mCharge) {
         mCharge += count;
-    else
+    } else {
         mCharge = 0;
+    }
 }
 
 void ElectroEngineCar::move() {
-    if (mCharge <= 0)
+    if (mCharge <= 0) {
         return;
+    }
 
     --mCharge;
     ICar::move();
