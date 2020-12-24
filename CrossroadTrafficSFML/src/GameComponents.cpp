@@ -9,7 +9,8 @@ GameComponents::GameComponents(int initCarsCount,
 {}
 
 bool GameComponents::setBackground(const sf::String &filePath) {
-    if (!mBackgroundTexture.loadFromFile(filePath.toAnsiString())) {
+    bool success = mBackgroundTexture.loadFromFile(filePath.toAnsiString());
+    if(!success) {
         return false;
     }
 
