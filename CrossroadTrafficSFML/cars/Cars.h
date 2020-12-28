@@ -1,8 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <random>
-#include <chrono>
+#include "platform.h"
 
 #include "GasEngineCar.h"
 #include "ElectroEngineCar.h"

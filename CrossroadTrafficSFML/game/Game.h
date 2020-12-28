@@ -2,7 +2,6 @@
 
 #include "GameComponents.h"
 
-
 class Game {
 public:
     Game(int initCarsCount       = GameConstants::initialCarsCount,

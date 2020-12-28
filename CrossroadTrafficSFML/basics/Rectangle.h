@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "platform.h"
 
 class Rectangle : public sf::RectangleShape {
 public:

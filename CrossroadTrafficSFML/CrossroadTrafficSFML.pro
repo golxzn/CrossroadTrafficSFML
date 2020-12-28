@@ -45,7 +45,8 @@ HEADERS +=                      \
     cars/Cars.h                 \
     game/Game.h                  \
     game/GameComponents.h        \
-    game/GameConstants.h
+    game/GameConstants.h \
+    platform.h
 
 message("[Sources] Pathes:")
 message("  -> $$INCLUDEPATH")
