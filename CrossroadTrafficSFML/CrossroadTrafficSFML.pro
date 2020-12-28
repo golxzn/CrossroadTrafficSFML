@@ -1,6 +1,9 @@
 #======================= Config ========================#
+message("[Config] Start configuring project $$TARGET")
 QT += core gui widgets opengl
 CONFIG += c++17
+message("[Config] QT:     $$QT")
+message("[Config] CONFIG: $$CONFIG")
 
 #======================== Cross ========================#
 
@@ -44,14 +47,25 @@ HEADERS +=                      \
     game/GameComponents.h        \
     game/GameConstants.h
 
+message("[Sources] Pathes:")
+message("  -> $$INCLUDEPATH")
+
+message("[Sources] Sources:")
+message("  -> $$SOURCES")
+
+message("[Sources] Headers:")
+message("  -> $$HEADERS")
+
 #====================== Libraries ======================#
 
+message("[Libraries] Start linking SFML")
 SFML_ROOT_DIR = $${PWD}/lib/SFML-2.5.1-$$PLATFORM
+message("[Libraries] SFML root directory: $$SFML_ROOT_DIR")
 
 INCLUDEPATH += $$SFML_ROOT_DIR/include
 DEPENDPATH  += $$SFML_ROOT_DIR/include
 
-LIBS += -L$$SFML_ROOT_DIR/lib/
+LIBS += -L$$SFML_ROOT_DIR/lib
 
 if(contains(PLATFORM, "linux")) {
     SFML_LIBS_DEBUG =   \
@@ -82,11 +96,17 @@ CONFIG(release, debug|release) {
     LIBS += $$SFML_LIBS_RELEASE
 }
 
+message("[Libraries] Linker options: $$LIBS")
 
+#====================== Other ======================#
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+# Copy dependencies in build directory
+# @ToDo: Make copying files from res to OUT_PWD
+# message("[Other] Copying dependencies")
+# message("[Other] [Copy] $$PWD/res -> $$OUT_PWD/res")
 
