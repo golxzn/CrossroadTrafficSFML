@@ -16,29 +16,33 @@ message("[Cross] The target platform is $$PLATFORM")
 
 #======================= Sources =======================#
 
-INCLUDEPATH += inc
+INCLUDEPATH +=  \
+    basics      \
+    cars        \
+    game        \
+    res
 
-SOURCES += \
-    src/ICar.cpp \
-    src/ElectroEngineCar.cpp \
-    src/GasEngineCar.cpp \
-    src/HybridEngineCar.cpp \
-    src/Cars.cpp \
-    src/Game.cpp \
-    src/GameComponents.cpp \
-    src/Rectangle.cpp \
+SOURCES +=                      \
+    basics/Rectangle.cpp        \
+    cars/ICar.cpp               \
+    cars/ElectroEngineCar.cpp   \
+    cars/GasEngineCar.cpp       \
+    cars/HybridEngineCar.cpp    \
+    cars/Cars.cpp               \
+    game/Game.cpp                \
+    game/GameComponents.cpp      \
     main.cpp
 
-HEADERS += \
-    inc/Cars.h \
-    inc/ElectroEngineCar.h \
-    inc/Game.h \
-    inc/GameComponents.h \
-    inc/GameConstants.h \
-    inc/GasEngineCar.h \
-    inc/HybridEngineCar.h \
-    inc/ICar.h \
-    inc/Rectangle.h
+HEADERS +=                      \
+    basics/Rectangle.h          \
+    cars/ICar.h                 \
+    cars/ElectroEngineCar.h     \
+    cars/GasEngineCar.h         \
+    cars/HybridEngineCar.h      \
+    cars/Cars.h                 \
+    game/Game.h                  \
+    game/GameComponents.h        \
+    game/GameConstants.h
 
 #====================== Libraries ======================#
 
