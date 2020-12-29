@@ -39,6 +39,7 @@ SOURCES +=                      \
 
 HEADERS +=                      \
     basics/Rectangle.h          \
+    basics/singleton.h          \
     cars/ICar.h                 \
     cars/ElectroEngineCar.h     \
     cars/GasEngineCar.h         \
