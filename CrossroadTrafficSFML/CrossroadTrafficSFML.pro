@@ -32,20 +32,21 @@ SOURCES +=                      \
     cars/GasEngineCar.cpp       \
     cars/HybridEngineCar.cpp    \
     cars/Cars.cpp               \
-    game/Game.cpp                \
-    game/GameComponents.cpp      \
+    game/Game.cpp               \
+    game/GameComponents.cpp     \
     main.cpp
 
 HEADERS +=                      \
     basics/Rectangle.h          \
+    basics/singleton.h          \
     cars/ICar.h                 \
     cars/ElectroEngineCar.h     \
     cars/GasEngineCar.h         \
     cars/HybridEngineCar.h      \
     cars/Cars.h                 \
-    game/Game.h                  \
-    game/GameComponents.h        \
-    game/GameConstants.h \
+    game/Game.h                 \
+    game/GameComponents.h       \
+    game/GameConstants.h        \
     platform.h
 
 message("[Sources] Pathes:")
