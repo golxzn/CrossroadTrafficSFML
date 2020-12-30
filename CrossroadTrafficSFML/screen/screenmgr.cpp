@@ -1,25 +1,38 @@
 #include "screenmgr.h"
 
+ScreenManager &initScreenManager(const sf::Vector2u &size, const sf::String &title) {
+    ScreenManager &mgr = getScreenManager();
+    mgr.init(size, title);
+    return mgr;
+}
+
+ScreenManager &getScreenManager() {
+    return ScreenManager::instance();
+}
+
 //=============================== ScreenManager ===============================//
 
-ScreenManager::ScreenManager(const sf::Vector2u &size, const sf::String &title) {
+void ScreenManager::init(const sf::Vector2u &size, const sf::String &title) {
+    if(screen.isOpen()) {
+        return;
+    }
     screen.create(sf::VideoMode{size.x, size.y}, title);
 }
 
-void ScreenManager::addTarget(DrawablePtr target) {
-    std::vector<DrawablePtr>::const_iterator found = find(target->first);
-
-    if(found == drawTargets.end()) {
-        drawTargets.emplace_back(target);
-        handler.update(target);
+void ScreenManager::update(id_t id, DrawablePtr target) {
+    if(nullptr == target) {
+        return;
     }
+    std::lock_guard l(targetsGuard);
+    drawTargets[id] = target;
 }
 
 void ScreenManager::removeTarget(id_t targetID) {
-    std::vector<DrawablePtr>::const_iterator found = find(targetID);
+    std::map<id_t, DrawablePtr>::const_iterator found = find(targetID);
     if(found != drawTargets.end()) {
+        targetsGuard.lock();
         drawTargets.erase(found);
-        handler.rmTarget(found);
+        targetsGuard.unlock();
     }
 }
 
@@ -29,7 +42,7 @@ void ScreenManager::start() {
     }
     handler.start();
 
-    drawThread.reset(new std::thread(drawloop, handler));
+    drawThread.reset(new std::thread(drawloop, std::ref(handler)));
 }
 
 void ScreenManager::end() {
@@ -40,43 +53,68 @@ void ScreenManager::end() {
     drawThread->join();
 }
 
-std::vector<DrawablePtr>::const_iterator ScreenManager::find(id_t id) const {
+GuardedScreen ScreenManager::getScreen() {
+    return std::make_pair(std::ref(screenGuard), std::ref(screen));
+}
+
+GuardedTargets ScreenManager::getTargets() {
+    return std::make_pair(std::ref(targetsGuard), std::ref(drawTargets));
+}
+
+std::map<id_t, DrawablePtr>::const_iterator ScreenManager::find(id_t id) const {
     return std::find_if(drawTargets.begin(), drawTargets.end(),
-        [&id](DrawablePtr ent) -> bool {
-            return ent->first == id;
+        [&id](const std::pair<id_t, DrawablePtr> &ent) -> bool {
+            return ent.first == id;
         });
 }
 
 void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
+    GuardedScreen screen = getScreenManager().getScreen();
+    GuardedTargets targets = getScreenManager().getTargets();
+    auto update = [&]() {
+        GuardedTargets updated = getScreenManager().getTargets();
+        // only if we have old version of targets and it's unlock
+        if(targets.second.size() != updated.second.size() && targets.first.try_lock()) {
+            targets.second = updated.second;
+        }
+    };
+    auto redraw = [&screen, &targets](const sf::Color &bgclr = sf::Color::White) {
+        sf::RenderWindow &win = screen.second;
+        std::map<id_t, DrawablePtr> obgs = targets.second;
+
+        int lockedId = std::try_lock(screen.first, targets.first);
+        if(0 != lockedId) {
+            return;
+        }
+
+        win.clear(bgclr);
+        for(auto& it : obgs) {
+            win.draw(*(it.second));
+        }
+        win.display();
+    };
+
+    sf::Clock delta;
+    sf::Event event;
     while(handler.isRunning()) {
-        // draw stuff
+        if(!screen.second.isOpen()) {
+            continue;
+        }
+        while(screen.second.pollEvent(event)) {
+            // handle events
+        }
+        update();
+        redraw();
     }
 }
 
 //=============================== ThreadHandler ===============================//
 
-
-ScreenManager::ThreadHandler::ThreadHandler()
-    : running{ false } {
-}
-
-void ScreenManager::ThreadHandler::rmTarget(std::vector<DrawablePtr>::const_iterator rmTarget) {
-    std::lock_guard<std::mutex> l(targetsGuard);
-    targets.erase(rmTarget);
-}
-
-void ScreenManager::ThreadHandler::update(DrawablePtr drawTarget) {
-    std::lock_guard<std::mutex> l(targetsGuard);
-    targets.emplace_back(drawTarget);
-}
-
 void ScreenManager::ThreadHandler::start() {
-    std::lock_guard<std::mutex> l(targetsGuard);
     running = true;
 }
 
 void ScreenManager::ThreadHandler::stop() {
-    std::lock_guard<std::mutex> l(targetsGuard);
     running = false;
 }
 
@@ -84,6 +122,3 @@ bool ScreenManager::ThreadHandler::isRunning() const {
     return running;
 }
 
-std::vector<DrawablePtr> ScreenManager::ThreadHandler::getTargets() const {
-    return targets;
-}

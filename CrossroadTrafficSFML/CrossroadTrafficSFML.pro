@@ -32,10 +32,10 @@ SOURCES +=                      \
     cars/GasEngineCar.cpp       \
     cars/HybridEngineCar.cpp    \
     cars/Cars.cpp               \
-    game/Game.cpp                \
-    game/GameComponents.cpp      \
-    main.cpp \
-    screen/screenmgr.cpp
+    game/Game.cpp               \
+    game/GameComponents.cpp     \
+    screen/screenmgr.cpp        \
+    main.cpp
 
 HEADERS +=                      \
     basics/Rectangle.h          \
@@ -45,11 +45,11 @@ HEADERS +=                      \
     cars/GasEngineCar.h         \
     cars/HybridEngineCar.h      \
     cars/Cars.h                 \
-    game/Game.h                  \
-    game/GameComponents.h        \
-    game/GameConstants.h \
-    platform.h \
-    screen/screenmgr.h
+    game/Game.h                 \
+    game/GameComponents.h       \
+    game/GameConstants.h        \
+    screen/screenmgr.h          \
+    platform.h
 
 message("[Sources] Pathes:")
 message("  -> $$INCLUDEPATH")
