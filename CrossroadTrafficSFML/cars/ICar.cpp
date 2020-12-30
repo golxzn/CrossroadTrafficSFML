@@ -1,3 +1,4 @@
+#include "GameConstants.h"
 #include "ICar.h"
 
 Rectangle ICar::futurePosition() const {
@@ -126,13 +127,6 @@ void ICar::setSpeed(float speed) {
     mSpeed = speed;
 }
 
-void ICar::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    // There's we can make the textures and other visualisations details
-    sf::RectangleShape rect{ mRect };
-    rect.setFillColor(sf::Color::Green);
-    target.draw(rect, states);
-}
-
 float ICar::range() const {
     return mRange;
 }
@@ -140,3 +134,30 @@ float ICar::range() const {
 void ICar::setRange(float range) {
     mRange = range;
 }
+
+bool ICar::isFuturePositionShowing() const {
+    return showingFuturePosition;
+}
+
+void ICar::showFuturePosition() {
+    showingFuturePosition = true;
+}
+
+void ICar::hideFuturePosition() {
+    showingFuturePosition = false;
+}
+
+void ICar::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    // There's we can make the textures and other visualisations details
+    sf::RectangleShape rect{ mRect };
+    rect.setFillColor(sf::Color::Green);
+    target.draw(rect, states);
+
+    if(!showingFuturePosition) {
+        return;
+    }
+    Rectangle futurePos{ futurePosition() };
+    futurePos.setFillColor(GameConstants::defaultCarFuturePositionColor);
+    target.draw(futurePos);
+}
+

@@ -119,19 +119,37 @@ void Cars::spawnCarAnywhere() {
     }
 }
 
-Cars::CarsContainer::iterator Cars::begin() {
+bool Cars::isFuturePositionShowing() const {
+    return currentFuturePosVisability;
+}
+
+void Cars::showFuturePositions() {
+    currentFuturePosVisability = true;
+    for(auto car{ mCarsCont.begin() }; car != mCarsCont.end(); ++car) {
+        car->get()->showFuturePosition();
+    }
+}
+
+void Cars::hideFuturePositions() {
+    currentFuturePosVisability = false;
+    for(auto car{ mCarsCont.begin() }; car != mCarsCont.end(); ++car) {
+        car->get()->showFuturePosition();
+    }
+}
+
+CarsContainer::iterator Cars::begin() {
     return mCarsCont.begin();
 }
 
-Cars::CarsContainer::iterator Cars::end() {
+CarsContainer::iterator Cars::end() {
     return mCarsCont.end();
 }
 
-Cars::CarsContainer::const_iterator Cars::cbegin() const {
+CarsContainer::const_iterator Cars::begin() const {
     return mCarsCont.cbegin();
 }
 
-Cars::CarsContainer::const_iterator Cars::cend() const {
+CarsContainer::const_iterator Cars::end() const {
     return mCarsCont.cend();
 }
 
@@ -177,8 +195,7 @@ bool Cars::intoOncomingCar(const ICar& first, const ICar& second) const {
            (first.dir() == Dir::UP    && second.dir() == Dir::DOWN) ;
 }
 
-void Cars::createRandomCar(Cars::Dir direction,
-                           const Rectangle& rect,
+void Cars::createRandomCar(Dir direction, const Rectangle& rect,
                            float speed, int fuel, float range) {
     switch(getRandomNumber(1, 3)) {
         case 1:
@@ -192,9 +209,14 @@ void Cars::createRandomCar(Cars::Dir direction,
             break;
     }
 
-    mCarsCont.back()->setDir(direction);
-    mCarsCont.back()->setRect(rect);
-    mCarsCont.back()->setSpeed(speed);
-    mCarsCont.back()->setRange(range);
-    mCarsCont.back()->refill(fuel);
+    auto& newCar = mCarsCont.back();
+    newCar->setDir(direction);
+    newCar->setRect(rect);
+    newCar->setSpeed(speed);
+    newCar->setRange(range);
+    newCar->refill(fuel);
+    if(currentFuturePosVisability) {
+        newCar->showFuturePosition();
+    }
+
 }
