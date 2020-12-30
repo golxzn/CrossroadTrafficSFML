@@ -17,8 +17,7 @@ class ScreenManager : public singleton<ScreenManager>, public EventReceiver {
     SINGLETON_IMPL(ScreenManager);
 public:
     ScreenManager() = default;
-    void init(const sf::Vector2u &size, const sf::String &title);
-    void update(id_t id, DrawablePtr target);
+    void init(const sf::Vector2u &size, const sf::String &title = GameConstants::ScreenInfo::TITLE);
     void removeTarget(id_t targetID);
     void start();
     void end();

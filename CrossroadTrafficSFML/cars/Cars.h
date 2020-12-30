@@ -15,8 +15,8 @@ class Cars {
 
 public:
     Cars(int initCarsCount     = GameConstants::initialCarsCount,
-         unsigned windowWidth  = GameConstants::ScreenInfo.WIDTH,
-         unsigned windowHeight = GameConstants::ScreenInfo.HEIGHT);
+         unsigned windowWidth  = GameConstants::ScreenInfo::WIDTH,
+         unsigned windowHeight = GameConstants::ScreenInfo::HEIGHT);
 
     Cars(const Cars&)            = delete;
     Cars(Cars&&)                 = delete;

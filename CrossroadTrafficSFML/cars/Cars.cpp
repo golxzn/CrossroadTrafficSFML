@@ -139,12 +139,11 @@ Cars::~Cars() {
     mCarsCont.clear();
 }
 
-
 void Cars::replaceOutOfScreenCars() {
-    using GameConstants::ScreenInfo;
+    using namespace GameConstants;
 
     for(auto car{ mCarsCont.begin() }; car != mCarsCont.end(); ++car) {
-        if(!(*car)->isInScreen(ScreenInfo.WIDTH, ScreenInfo.HEIGHT)) {
+        if(!(*car)->isInScreen(ScreenInfo::WIDTH, ScreenInfo::HEIGHT)) {
             car = mCarsCont.erase(car);
             spawnCarAnywhere();
         }
