@@ -11,11 +11,12 @@ class singleton {
 public:
     singleton() = default;
 
-    T &instance() {
-        static T single;
+    template<class... Args>
+    static T &instance(Args... arguments) {
+        static T single(arguments...);
         return single;
     }
-    T *instancePtr() {
+    static T *instancePtr() {
         static T *single = new T();
         return single;
     }
