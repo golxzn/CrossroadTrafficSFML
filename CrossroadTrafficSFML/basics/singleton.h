@@ -1,6 +1,8 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
+#include "platform.h"
+
 template <class T>
 class singleton {
     singleton(const singleton<T> &) = delete;
@@ -8,16 +10,19 @@ class singleton {
     singleton<T> &operator=(const singleton<T> &) = delete;
     singleton<T> &operator=(singleton<T> &&) = delete;
 
-public:
+protected:
+    virtual ~singleton() {}
     singleton() = default;
+
+public:
 
     template<class... Args>
     static T &instance(Args... arguments) {
         static T single(arguments...);
         return single;
     }
-    static T *instancePtr() {
-        static T *single = new T();
+    static std::shared_ptr<T> instancePtr() {
+        static std::shared_ptr<T> single(new T());
         return single;
     }
 };
