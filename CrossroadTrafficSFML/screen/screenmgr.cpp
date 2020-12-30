@@ -96,10 +96,7 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
         std::shared_ptr<sf::RenderWindow> win = screen.second;
         std::map<id_t, DrawablePtr> obgs = targets.second;
 
-        int lockedId = std::try_lock(screen.first, targets.first);
-        if(0 != lockedId) {
-            return;
-        }
+        std::lock_guard l(screen.first);
 
         win->clear(bgclr);
         for(auto& it : obgs) {

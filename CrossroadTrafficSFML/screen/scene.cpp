@@ -1,7 +1,6 @@
 #include "scene.h"
 
-Scene::Scene()
-{
+Scene::Scene() {
     using namespace GameConstants::ScreenInfo;
 
     sf::Texture bgTexture;
@@ -20,28 +19,24 @@ Scene::Scene()
 
 void Scene::onEvent(EventType event) {
     switch(event) {
-        case EventType::MakeCarsFaster:
-            cars.makeCarsFaster();
-            break;
-        case EventType::MakeCarsSlower:
-            cars.makeCarsSlower();
-            break;
-        case EventType::ShowFuturePosition:
+        case EventType::ShowFuturePosition: {
             if(cars.isFuturePositionShowing()) {
                 cars.hideFuturePositions();
             } else {
                 cars.showFuturePositions();
             }
             break;
+        }
+        case EventType::MakeCarsFaster: cars.makeCarsFaster(); break;
+        case EventType::MakeCarsSlower: cars.makeCarsSlower(); break;
+
         default: break;
     }
 }
 
-void Scene::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
+void Scene::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(background);
-    for (auto &car : cars)
-    {
+    for(auto &car : cars) {
         car->draw(target, states);
     }
 }

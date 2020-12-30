@@ -133,7 +133,7 @@ void Cars::showFuturePositions() {
 void Cars::hideFuturePositions() {
     currentFuturePosVisability = false;
     for(auto car{ mCarsCont.begin() }; car != mCarsCont.end(); ++car) {
-        car->get()->showFuturePosition();
+        car->get()->hideFuturePosition();
     }
 }
 
