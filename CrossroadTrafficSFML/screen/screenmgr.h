@@ -49,7 +49,7 @@ private:
 
     static void drawloop(ThreadHandler &handler);
 
-    void update(EventType type) override;
+    void onEvent(EventType type) override;
 };
 
 ScreenManager &initScreenManager(const sf::Vector2u &size, const sf::String &title);

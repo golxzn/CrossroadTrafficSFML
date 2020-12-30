@@ -14,7 +14,8 @@ enum class EventType {
 };
 
 struct EventReceiver {
-    virtual void update(EventType event) = 0;
+    virtual ~EventReceiver() {}
+    virtual void onEvent(EventType event) = 0;
 };
 
 using EventReceiverPtr = std::shared_ptr<EventReceiver>;
@@ -29,7 +30,7 @@ public:
 
 private:
     std::vector<EventReceiverPtr> receivers;
-    static void updateAll(void *This, EventType event);
+    static void notifyAll(void *This, EventType event);
 };
 
 EventHandler &getEventHandler();

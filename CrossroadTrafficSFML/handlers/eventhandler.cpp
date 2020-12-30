@@ -29,20 +29,20 @@ void EventHandler::pull(sf::Event &event) {
         }
     }
 
-    std::thread(&EventHandler::updateAll, this, eventType).detach();
+    std::thread(&EventHandler::notifyAll, this, eventType).detach();
 }
 
 void EventHandler::subscribe(EventReceiverPtr receiver) {
     receivers.emplace_back(receiver);
 }
 
-void EventHandler::updateAll(void *This, EventType event) {
+void EventHandler::notifyAll(void *This, EventType event) {
     if(event == EventType::Nothing || nullptr == This) {
         return;
     }
     EventHandler *me = static_cast<EventHandler *>(This);
     for(auto receiver : me->receivers) {
-        receiver->update(event);
+        receiver->onEvent(event);
     }
 }
 

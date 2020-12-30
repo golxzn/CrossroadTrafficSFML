@@ -108,7 +108,7 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
     }
 }
 
-void ScreenManager::update(EventType type) {
+void ScreenManager::onEvent(EventType type) {
     switch(type) {
         case EventType::CloseApplication: {
             std::lock_guard l(screenGuard);
