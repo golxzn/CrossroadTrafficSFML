@@ -11,6 +11,7 @@
 
 #include <thread>
 #include <mutex>
+#include <atomic>
 
 //============= SFML =============//
 #include <SFML/Graphics.hpp>

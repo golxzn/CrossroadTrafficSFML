@@ -101,10 +101,25 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
             continue;
         }
         while(screen.second.pollEvent(event)) {
-            // handle events
+            getEventHandler().pull(event);
         }
         update();
         redraw();
+    }
+}
+
+void ScreenManager::update(EventType type) {
+    switch(type) {
+        case EventType::CloseApplication: {
+            std::lock_guard l(screenGuard);
+            handler.stop();
+            screen.close();
+            return;
+        }
+        case EventType::PauseGame: {
+            // pause game
+        }
+        default: return;
     }
 }
 
@@ -118,7 +133,19 @@ void ScreenManager::ThreadHandler::stop() {
     running = false;
 }
 
+void ScreenManager::ThreadHandler::pause() {
+    paused = true;
+}
+
+void ScreenManager::ThreadHandler::resume() {
+    paused = false;
+}
+
 bool ScreenManager::ThreadHandler::isRunning() const {
     return running;
+}
+
+bool ScreenManager::ThreadHandler::isPaused() const {
+    return paused;
 }
 

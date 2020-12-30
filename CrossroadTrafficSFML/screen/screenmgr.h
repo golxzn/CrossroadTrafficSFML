@@ -4,6 +4,7 @@
 #include "platform.h"
 #include "GameConstants.h"
 #include "singleton.h"
+#include "eventhandler.h"
 
 template<class T>
 using GuardedObject = std::pair<std::mutex &, T&>;
@@ -12,7 +13,7 @@ using DrawablePtr = std::shared_ptr<sf::Drawable>;
 using GuardedScreen = GuardedObject<sf::RenderWindow &>;
 using GuardedTargets = GuardedObject<std::map<id_t, DrawablePtr>>;
 
-class ScreenManager : public singleton<ScreenManager> {
+class ScreenManager : public singleton<ScreenManager>, public EventReceiver {
     SINGLETON_IMPL(ScreenManager);
 public:
     ScreenManager() = default;
@@ -37,13 +38,19 @@ private:
     struct ThreadHandler {
         void start();
         void stop();
+        void pause();
+        void resume();
         bool isRunning() const;
+        bool isPaused() const;
 
     private:
-        bool running{ false };
+        std::atomic<bool> running{ false };
+        std::atomic<bool> paused{ false };
     } handler;
 
     static void drawloop(ThreadHandler &handler);
+
+    void update(EventType type) override;
 };
 
 ScreenManager &initScreenManager(const sf::Vector2u &size, const sf::String &title);
