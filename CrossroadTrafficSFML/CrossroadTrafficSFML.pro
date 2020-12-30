@@ -23,6 +23,7 @@ INCLUDEPATH +=  \
     basics      \
     cars        \
     game        \
+    handlers    \
     res
 
 SOURCES +=                      \
@@ -34,6 +35,7 @@ SOURCES +=                      \
     cars/Cars.cpp               \
     game/Game.cpp               \
     game/GameComponents.cpp     \
+    handlers/eventhandler.cpp   \
     screen/screenmgr.cpp        \
     main.cpp
 
@@ -48,6 +50,7 @@ HEADERS +=                      \
     game/Game.h                 \
     game/GameComponents.h       \
     game/GameConstants.h        \
+    handlers/eventhandler.h     \
     screen/screenmgr.h          \
     platform.h
 

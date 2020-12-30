@@ -1,0 +1,48 @@
+#include "eventhandler.h"
+
+EventHandler &getEventHandler() {
+    return EventHandler::instance();
+}
+
+void EventHandler::pull(sf::Event &event) {
+    EventType eventType = EventType::Nothing;
+
+    if(event.type == sf::Event::Closed) {
+        eventType = EventType::CloseApplication;
+    }
+
+    if(event.type == sf::Event::KeyPressed) {
+        switch (event.key.code) {
+            case sf::Keyboard::Escape:
+                eventType = EventType::PauseGame;
+                break;
+            case sf::Keyboard::V:
+                eventType = EventType::ShowFuturePosition;
+                break;
+            case sf::Keyboard::Up:
+                eventType = EventType::MakeCarsFaster;
+                 break;
+            case sf::Keyboard::Down:
+                eventType = EventType::MakeCarsSlower;
+                 break;
+            default: break;
+        }
+    }
+
+    std::thread(&EventHandler::updateAll, this, eventType).detach();
+}
+
+void EventHandler::subscribe(EventReceiverPtr receiver) {
+    receivers.emplace_back(receiver);
+}
+
+void EventHandler::updateAll(void *This, EventType event) {
+    if(event == EventType::Nothing || nullptr == This) {
+        return;
+    }
+    EventHandler *me = static_cast<EventHandler *>(This);
+    for(auto receiver : me->receivers) {
+        receiver->update(event);
+    }
+}
+
