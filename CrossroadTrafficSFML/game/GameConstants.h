@@ -18,7 +18,8 @@ namespace GameConstants {
 
     const auto defaultDirection{ ICar::eDirection::DOWN };
     const struct {
-        int WIDTH;
-        int HEIGHT;
-    } ScreenInfo { 1024, 768 };
+        const uint WIDTH;
+        const uint HEIGHT;
+        const char *TITLE;
+    } ScreenInfo { 1024, 768, "Crossroad traffic" };
 }
