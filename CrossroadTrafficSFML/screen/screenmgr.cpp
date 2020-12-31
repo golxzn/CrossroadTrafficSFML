@@ -24,8 +24,6 @@ void ScreenManager::init(const sf::Vector2u &size, const sf::String &title) {
         return;
     }
     screen->create(sf::VideoMode{size.x, size.y}, title);
-    screen->clear(sf::Color::White);
-    screen->display();
 }
 
 void ScreenManager::update(id_t id, DrawablePtr target) {

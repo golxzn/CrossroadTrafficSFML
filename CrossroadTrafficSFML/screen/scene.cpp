@@ -4,9 +4,8 @@
 Scene::Scene() {
     using namespace GameConstants::ScreenInfo;
 
-    sf::Texture bgTexture;
-
     bgTexture.loadFromFile(GameConstants::defaultBackgroundImgPath);
+    bgTexture.setSmooth(true);
 
     sf::Vector2u TextureSize{bgTexture.getSize()};
 
@@ -36,8 +35,8 @@ void Scene::onEvent(EventType event) {
 }
 
 void Scene::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    target.draw(background, states);
     std::lock_guard l(carsGuard);
-    target.draw(background);
     for(const auto &car : cars) {
         if(nullptr != car) {
             car->draw(target, states);
@@ -54,6 +53,3 @@ void Scene::update() {
     cars.moveCars();
 }
 
-std::mutex &Scene::getCarsGuard() {
-    return carsGuard;
-}

@@ -13,11 +13,11 @@ protected:
     void onEvent(EventType event) override;
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
     void update();
-    std::mutex &getCarsGuard();
 
 private:
     mutable std::mutex carsGuard;
     Cars cars;
+    sf::Texture bgTexture;
     sf::Sprite background;
 };
 
