@@ -24,6 +24,6 @@ namespace GameConstants {
         constexpr char TITLE[] = "Crossroad traffic";
         const sf::Vector2u SIZE{ WIDTH, HEIGHT };
     }
-    constexpr char defaultBackgroundImgPath[] = "res/img/background.jpg";
+    constexpr char defaultBackgroundImgPath[] = "res/img/background_1.jpg";
     constexpr char defaultUIFontPath[] = "res/fonts/UI_font.ttf";
 }
