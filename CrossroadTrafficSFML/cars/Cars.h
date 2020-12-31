@@ -8,15 +8,15 @@
 
 #include "GameConstants.h"
 
+using Dir           = ICar::eDirection;
+using CarsContainer = std::vector<std::unique_ptr<ICar> >;
+
 class Cars {
-
-    using CarsContainer = std::vector<std::unique_ptr<ICar>>;
-    using Dir           = ICar::eDirection;
-
 public:
+
     Cars(int initCarsCount     = GameConstants::initialCarsCount,
-         unsigned windowWidth  = GameConstants::ScreenInfo.WIDTH,
-         unsigned windowHeight = GameConstants::ScreenInfo.HEIGHT);
+         unsigned windowWidth  = GameConstants::ScreenInfo::WIDTH,
+         unsigned windowHeight = GameConstants::ScreenInfo::HEIGHT);
 
     Cars(const Cars&)            = delete;
     Cars(Cars&&)                 = delete;
@@ -34,17 +34,24 @@ public:
     void spawnCarFromRight();
 
     void spawnCarAnywhere();
+    void removeCarAnywhere();
+    size_t carsCount() const;
+
+    bool isFuturePositionShowing() const;
+    void showFuturePositions();
+    void hideFuturePositions();
 
     CarsContainer::iterator begin();
     CarsContainer::iterator end();
 
-    CarsContainer::const_iterator cbegin() const;
-    CarsContainer::const_iterator cend()   const;
+    CarsContainer::const_iterator begin() const;
+    CarsContainer::const_iterator end()   const;
 
     ~Cars();
 
 private:
     CarsContainer mCarsCont;
+    bool currentFuturePosVisability = false;
     float         mCarsSpeed{ GameConstants::defaultSpeed };
 
     unsigned mWindowWidth;

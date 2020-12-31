@@ -6,6 +6,12 @@
 #include <vector>
 #include <random>
 #include <chrono>
+#include <memory>
+#include <algorithm>
+
+#include <thread>
+#include <mutex>
+#include <atomic>
 
 //============= SFML =============//
 #include <SFML/Graphics.hpp>

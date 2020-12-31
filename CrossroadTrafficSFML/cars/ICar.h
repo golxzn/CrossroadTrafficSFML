@@ -33,6 +33,10 @@ public:
     void setSpeed(float speed);
     void setRange(float range);
 
+    bool isFuturePositionShowing() const;
+    void showFuturePosition();
+    void hideFuturePosition();
+
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 
@@ -41,5 +45,6 @@ protected:
     eDirection mDir;
     float      mSpeed{};
     float      mRange{};
+    bool showingFuturePosition{ false };
 };
 

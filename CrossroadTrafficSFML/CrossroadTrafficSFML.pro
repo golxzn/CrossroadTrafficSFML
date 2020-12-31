@@ -23,6 +23,8 @@ INCLUDEPATH +=  \
     basics      \
     cars        \
     game        \
+    handlers    \
+    screen      \
     res
 
 SOURCES +=                      \
@@ -34,6 +36,10 @@ SOURCES +=                      \
     cars/Cars.cpp               \
     game/Game.cpp               \
     game/GameComponents.cpp     \
+    handlers/eventhandler.cpp   \
+    screen/scene.cpp            \
+    screen/screenmgr.cpp        \
+    screen/userinterface.cpp    \
     main.cpp
 
 HEADERS +=                      \
@@ -47,6 +53,10 @@ HEADERS +=                      \
     game/Game.h                 \
     game/GameComponents.h       \
     game/GameConstants.h        \
+    handlers/eventhandler.h     \
+    screen/scene.h              \
+    screen/screenmgr.h          \
+    screen/userinterface.h      \
     platform.h
 
 message("[Sources] Pathes:")

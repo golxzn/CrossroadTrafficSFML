@@ -3,22 +3,30 @@
 #include "ICar.h"
 
 namespace GameConstants {
-    const int   centreStrip{ 5 };
-    const int   initialCarsCount{ 5 };
-    const int   defaultFuel{ 5000 };
-    const float defaultSpeed{ 1 };
-    const float defaultRange{ 10 };
-    const float defaultSpeedChain{ 0.1f };
+    constexpr int   centreStrip{ 5 };
+    constexpr int   initialCarsCount{ 5 };
+    constexpr int   defaultFuel{ 5000 };
+    constexpr float defaultSpeed{ 0.5f };
+    constexpr float defaultRange{ 10 };
+    constexpr float defaultSpeedChain{ 0.01f };
+    constexpr size_t maxCarsCount{ 15 };
+    constexpr size_t minCarsCount{ 2 };
 
-    const auto defaultCarWidth{ 50u };
-    const auto defaultCarHeight{ 90u };
+    constexpr auto defaultCarWidth{ 50u };
+    constexpr auto defaultCarHeight{ 90u };
     const auto defaultCarRectangle{
         Rectangle{defaultCarWidth, defaultCarHeight}
     };
+    const auto defaultCarFuturePositionColor{ sf::Color{ 50, 40, 100, 150 } };
+    const auto defaultPanelColor{ sf::Color{ 40, 30, 40, 70 } };
 
-    const auto defaultDirection{ ICar::eDirection::DOWN };
-    const struct {
-        int WIDTH;
-        int HEIGHT;
-    } ScreenInfo { 1024, 768 };
+    constexpr auto defaultDirection{ ICar::eDirection::DOWN };
+    namespace ScreenInfo {
+        constexpr uint WIDTH = 1024u;
+        constexpr uint HEIGHT = 712u;
+        constexpr char TITLE[] = "Crossroad traffic";
+        const sf::Vector2u SIZE{ WIDTH, HEIGHT };
+    }
+    constexpr char defaultBackgroundImgPath[] = "res/img/background_0.jpg";
+    constexpr char defaultUIFontPath[] = "res/fonts/UI_font.ttf";
 }

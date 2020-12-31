@@ -5,9 +5,9 @@
 class Game {
 public:
     Game(int initCarsCount       = GameConstants::initialCarsCount,
-         unsigned windowWidth    = GameConstants::ScreenInfo.WIDTH,
-         unsigned windowHeight   = GameConstants::ScreenInfo.HEIGHT,
-         const sf::String &title = "Game");
+         unsigned windowWidth    = GameConstants::ScreenInfo::WIDTH,
+         unsigned windowHeight   = GameConstants::ScreenInfo::HEIGHT,
+         const sf::String &title = GameConstants::ScreenInfo::TITLE);
 
     Game(const Game&)            = delete;
     Game(Game&&)                 = delete;

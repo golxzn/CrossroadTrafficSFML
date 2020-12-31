@@ -5,8 +5,8 @@
 class GameComponents {
 public:
     GameComponents(int initCarsCount     = GameConstants::initialCarsCount,
-                   unsigned windowWidth  = GameConstants::ScreenInfo.WIDTH,
-                   unsigned windowHeight = GameConstants::ScreenInfo.HEIGHT);
+                   unsigned windowWidth  = GameConstants::ScreenInfo::WIDTH,
+                   unsigned windowHeight = GameConstants::ScreenInfo::HEIGHT);
 
     bool setBackground(const sf::String &filePath);
     void setCars(const Cars& cars);
