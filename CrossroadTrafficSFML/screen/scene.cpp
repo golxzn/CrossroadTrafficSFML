@@ -8,10 +8,9 @@ Scene::Scene() {
     bgTexture.loadFromFile(GameConstants::defaultBackgroundImgPath);
 
     sf::Vector2u TextureSize{bgTexture.getSize()};
-    sf::Vector2u WindowSize{WIDTH, HEIGHT};
 
-    float ScaleX(WIDTH / TextureSize.x);
-    float ScaleY(HEIGHT / TextureSize.y);
+    float ScaleX((float)WIDTH / TextureSize.x);
+    float ScaleY((float)HEIGHT / TextureSize.y);
 
     background.setTexture(bgTexture);
     background.setScale(ScaleX, ScaleY);
@@ -35,8 +34,12 @@ void Scene::onEvent(EventType event) {
 }
 
 void Scene::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    std::lock_guard l(carsGuard);
     target.draw(background);
-    for(auto &car : cars) {
-        car->draw(target, states);
+    for(const auto &car : cars) {
+        if(nullptr != car) {
+            car->draw(target, states);
+        }
     }
 }
+

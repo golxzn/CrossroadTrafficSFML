@@ -25,4 +25,5 @@ namespace GameConstants {
         const sf::Vector2u SIZE{ WIDTH, HEIGHT };
     }
     constexpr char defaultBackgroundImgPath[] = "res/img/background.jpg";
+    constexpr char defaultUIFontPath[] = "res/fonts/UI_font.ttf";
 }
