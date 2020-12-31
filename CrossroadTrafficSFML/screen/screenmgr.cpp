@@ -123,6 +123,7 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
         while(screen.second->pollEvent(event)) {
             getEventHandler().pull(event);
         }
+        getEventHandler().pull(EventType::Update);
         update();
         redraw();
     }

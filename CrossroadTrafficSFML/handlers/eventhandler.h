@@ -10,7 +10,9 @@ enum class EventType {
     PauseGame,
     ShowFuturePosition,
     MakeCarsFaster,
-    MakeCarsSlower
+    MakeCarsSlower,
+
+    Update,
 };
 
 struct EventReceiver {
@@ -25,6 +27,7 @@ class EventHandler : public singleton<EventHandler> {
 public:
     EventHandler() = default;
 
+    void pull(EventType event);
     void pull(sf::Event &event);
     void subscribe(EventReceiverPtr receiver);
 

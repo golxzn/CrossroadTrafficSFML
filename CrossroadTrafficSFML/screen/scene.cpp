@@ -1,3 +1,4 @@
+#include "screenmgr.h"
 #include "scene.h"
 
 Scene::Scene() {
@@ -26,6 +27,7 @@ void Scene::onEvent(EventType event) {
             }
             break;
         }
+        case EventType::Update: update(); break;
         case EventType::MakeCarsFaster: cars.makeCarsFaster(); break;
         case EventType::MakeCarsSlower: cars.makeCarsSlower(); break;
 
@@ -43,3 +45,15 @@ void Scene::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     }
 }
 
+void Scene::update() {
+    if(getScreenManager()->isGamePaused()) {
+        return;
+    }
+
+    std::lock_guard l(carsGuard);
+    cars.moveCars();
+}
+
+std::mutex &Scene::getCarsGuard() {
+    return carsGuard;
+}

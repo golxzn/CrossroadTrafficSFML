@@ -4,6 +4,10 @@ EventHandler &getEventHandler() {
     return EventHandler::instance();
 }
 
+void EventHandler::pull(EventType event) {
+    std::thread(&EventHandler::notifyAll, this, event).detach();
+}
+
 void EventHandler::pull(sf::Event &event) {
     EventType eventType = EventType::Nothing;
 
