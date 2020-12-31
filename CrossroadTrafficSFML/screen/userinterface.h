@@ -13,6 +13,14 @@ protected:
 
     void onEvent(EventType event) override;
 
+private:
+    float fontSize;
+    float paddings;
+    sf::Font font;
+    std::vector<sf::Text> description;
+    sf::Vector2f panelSize;
+    sf::RectangleShape panel;
+
 };
 
 #endif // USERINTERFACE_H

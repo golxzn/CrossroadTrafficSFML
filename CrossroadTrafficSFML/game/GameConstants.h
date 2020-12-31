@@ -18,6 +18,7 @@ namespace GameConstants {
         Rectangle{defaultCarWidth, defaultCarHeight}
     };
     const auto defaultCarFuturePositionColor{ sf::Color{ 50, 40, 100, 150 } };
+    const auto defaultPanelColor{ sf::Color{ 40, 30, 40, 70 } };
 
     constexpr auto defaultDirection{ ICar::eDirection::DOWN };
     namespace ScreenInfo {
@@ -26,6 +27,6 @@ namespace GameConstants {
         constexpr char TITLE[] = "Crossroad traffic";
         const sf::Vector2u SIZE{ WIDTH, HEIGHT };
     }
-    constexpr char defaultBackgroundImgPath[] = "res/img/background_1.jpg";
+    constexpr char defaultBackgroundImgPath[] = "res/img/background_0.jpg";
     constexpr char defaultUIFontPath[] = "res/fonts/UI_font.ttf";
 }
