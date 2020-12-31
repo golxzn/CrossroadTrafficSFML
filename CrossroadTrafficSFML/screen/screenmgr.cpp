@@ -93,10 +93,13 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
     GuardedScreen screen = getScreenManager()->getScreen();
     GuardedTargets targets = getScreenManager()->getTargets();
     auto update = [&]() {
-        GuardedTargets updated = getScreenManager()->getTargets();
-        // only if we have old version of targets and it's unlock
-        if(targets.second.size() != updated.second.size() && targets.first.try_lock()) {
-            targets.second = updated.second;
+        const auto &updated = getScreenManager()->getTargets().second;
+        auto &current = targets.second;
+        auto &curGuard = targets.first;
+        // only if we found new or removed target and it's unlock
+        if(current.size() != updated.size() && curGuard.try_lock()) {
+            curGuard.lock();
+            current = updated;
         }
     };
 
@@ -105,7 +108,6 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
         std::map<id_t, DrawablePtr> obgs = targets.second;
 
         std::lock_guard l(screen.first);
-
         win->clear(bgclr);
         for(auto& it : obgs) {
             win->draw(*(it.second));
@@ -113,7 +115,6 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
         win->display();
     };
 
-    sf::Clock delta;
     sf::Event event;
     while(handler.isRunning()) {
         if(!screen.second->isOpen()) {
@@ -130,11 +131,15 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
 void ScreenManager::onEvent(EventType type) {
     switch(type) {
         case EventType::CloseApplication: {
-            getScreenManager()->stop();
+            stop();
             return;
         }
         case EventType::PauseGame: {
-            // pause game
+            if(!isGamePaused()) {
+                handler.pause();
+            } else {
+                handler.resume();
+            }
         }
         default: return;
     }
