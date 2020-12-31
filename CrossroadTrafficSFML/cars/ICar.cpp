@@ -150,7 +150,7 @@ void ICar::hideFuturePosition() {
 void ICar::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     // There's we can make the textures and other visualisations details
     sf::RectangleShape rect{ mRect };
-    rect.setFillColor(sf::Color::Green);
+    rect.setFillColor((fuel() > 1) ? sf::Color::Green : sf::Color::Red);
     target.draw(rect, states);
 
     if(!showingFuturePosition) {

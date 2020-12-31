@@ -6,9 +6,9 @@ namespace GameConstants {
     constexpr int   centreStrip{ 5 };
     constexpr int   initialCarsCount{ 5 };
     constexpr int   defaultFuel{ 5000 };
-    constexpr float defaultSpeed{ 1 };
+    constexpr float defaultSpeed{ 0.5f };
     constexpr float defaultRange{ 10 };
-    constexpr float defaultSpeedChain{ 0.1f };
+    constexpr float defaultSpeedChain{ 0.01f };
     constexpr size_t maxCarsCount{ 15 };
     constexpr size_t minCarsCount{ 2 };
 
