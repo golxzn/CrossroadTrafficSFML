@@ -27,6 +27,7 @@ public:
     GuardedScreen getScreen();
     GuardedTargets getTargets();
 
+    bool isGamePaused() const;
 private:
     std::mutex screenGuard;
     std::shared_ptr<sf::RenderWindow> screen;

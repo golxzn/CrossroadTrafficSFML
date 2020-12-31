@@ -58,9 +58,12 @@ void ScreenManager::stop() {
         return;
     }
     handler.stop();
-    screenGuard.lock();
+    // make sure we're single owner of screen
+    while(screen.use_count() != 1) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+    std::lock_guard l(screenGuard);
     screen->close();
-    screenGuard.unlock();
 }
 
 void ScreenManager::wait() {
@@ -73,6 +76,10 @@ GuardedScreen ScreenManager::getScreen() {
 
 GuardedTargets ScreenManager::getTargets() {
     return std::make_pair(std::ref(targetsGuard), std::ref(drawTargets));
+}
+
+bool ScreenManager::isGamePaused() const {
+    return handler.isPaused();
 }
 
 std::map<id_t, DrawablePtr>::const_iterator ScreenManager::find(id_t id) const {
@@ -92,6 +99,7 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
             targets.second = updated.second;
         }
     };
+
     auto redraw = [&screen, &targets](const sf::Color &bgclr = sf::Color::White) {
         std::shared_ptr<sf::RenderWindow> win = screen.second;
         std::map<id_t, DrawablePtr> obgs = targets.second;
