@@ -1,7 +1,6 @@
+#include "platform.h"
 #include "Game.h"
 
 int main() {
-    Game game;
-
-    return game.start();
+    return Game("Crossroad Traffic simulator").start();
 }

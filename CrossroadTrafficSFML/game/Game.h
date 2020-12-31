@@ -1,36 +1,26 @@
 #pragma once
 
 #include "GameComponents.h"
+#include "screenmgr.h"
+#include "scene.h"
+#include "userinterface.h"
 
 class Game {
 public:
-    Game(int initCarsCount       = GameConstants::initialCarsCount,
+    Game(const sf::String &title = GameConstants::ScreenInfo::TITLE,
          unsigned windowWidth    = GameConstants::ScreenInfo::WIDTH,
-         unsigned windowHeight   = GameConstants::ScreenInfo::HEIGHT,
-         const sf::String &title = GameConstants::ScreenInfo::TITLE);
+         unsigned windowHeight   = GameConstants::ScreenInfo::HEIGHT);
 
     Game(const Game&)            = delete;
     Game(Game&&)                 = delete;
     Game& operator=(const Game&) = delete;
     Game& operator=(Game&&)      = delete;
 
-    ~Game();
-
     int start();
 
-    void drawMap();
-    void drawBG();
-    void drawCars();
-    void drawUI();
-
 private:
-    sf::RenderWindow mWindow;
-    GameComponents   mComponents;
-    bool gamePaused;
-
-    bool isFururePositionVisable{ false };
-
-    int eventHandler(const sf::Event &event);
+    std::shared_ptr<Scene> scene;
+    std::shared_ptr<UserInterface> UI;
 
 };
 
