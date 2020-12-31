@@ -34,6 +34,8 @@ public:
     void spawnCarFromRight();
 
     void spawnCarAnywhere();
+    void removeCarAnywhere();
+    size_t carsCount() const;
 
     bool isFuturePositionShowing() const;
     void showFuturePositions();

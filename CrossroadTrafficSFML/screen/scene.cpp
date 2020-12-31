@@ -26,6 +26,18 @@ void Scene::onEvent(EventType event) {
             }
             break;
         }
+        case EventType::MoreCars:
+            if(cars.carsCount() < GameConstants::maxCarsCount) {
+                std::lock_guard l(carsGuard);
+                cars.spawnCarAnywhere();
+            }
+            break;
+        case EventType::LessCars:
+            if(cars.carsCount() > GameConstants::minCarsCount) {
+                std::lock_guard l(carsGuard);
+                cars.removeCarAnywhere();
+            }
+            break;
         case EventType::Update: update(); break;
         case EventType::MakeCarsFaster: cars.makeCarsFaster(); break;
         case EventType::MakeCarsSlower: cars.makeCarsSlower(); break;

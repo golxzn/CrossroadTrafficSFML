@@ -29,6 +29,12 @@ void EventHandler::pull(sf::Event &event) {
             case sf::Keyboard::Down:
                 eventType = EventType::MakeCarsSlower;
                  break;
+            case sf::Keyboard::Add:
+                eventType = EventType::MoreCars;
+                break;
+            case sf::Keyboard::Subtract:
+                eventType = EventType::LessCars;
+                break;
             default: break;
         }
     }

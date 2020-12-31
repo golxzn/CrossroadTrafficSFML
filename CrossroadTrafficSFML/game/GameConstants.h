@@ -9,6 +9,8 @@ namespace GameConstants {
     constexpr float defaultSpeed{ 1 };
     constexpr float defaultRange{ 10 };
     constexpr float defaultSpeedChain{ 0.1f };
+    constexpr size_t maxCarsCount{ 15 };
+    constexpr size_t minCarsCount{ 2 };
 
     constexpr auto defaultCarWidth{ 50u };
     constexpr auto defaultCarHeight{ 90u };

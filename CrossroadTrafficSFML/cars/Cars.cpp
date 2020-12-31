@@ -119,6 +119,19 @@ void Cars::spawnCarAnywhere() {
     }
 }
 
+void Cars::removeCarAnywhere() {
+    if(mCarsCont.empty()) {
+        return;
+    }
+    const int removing_position{ getRandomNumber(0, mCarsCont.size() - 1) };
+
+    mCarsCont.erase(mCarsCont.begin() + removing_position);
+}
+
+size_t Cars::carsCount() const {
+    return mCarsCont.size();
+}
+
 bool Cars::isFuturePositionShowing() const {
     return currentFuturePosVisability;
 }

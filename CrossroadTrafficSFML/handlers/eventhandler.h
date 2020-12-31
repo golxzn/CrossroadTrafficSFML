@@ -11,6 +11,8 @@ enum class EventType {
     ShowFuturePosition,
     MakeCarsFaster,
     MakeCarsSlower,
+    MoreCars,
+    LessCars,
 
     Update,
 };

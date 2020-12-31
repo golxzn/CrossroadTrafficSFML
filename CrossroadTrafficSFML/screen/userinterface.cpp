@@ -14,9 +14,11 @@ void UserInterface::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
     std::vector description{
         sf::Text{ sf::String{"Press  'Escape' to freezing time"}, font },
-        sf::Text{ sf::String{"Press  'V' \t\t to make cars' future positions are visible"}, font },
-        sf::Text{ sf::String{"Press  'Up' \t   to make frame faster"}, font },
-        sf::Text{ sf::String{"Press  'Down' to make frame slower"}, font }
+        sf::Text{ sf::String{"Press  'V' to make cars' future positions are visible"}, font },
+        sf::Text{ sf::String{"Press  'Up' to make frame faster"}, font },
+        sf::Text{ sf::String{"Press  'Down' to make frame slower"}, font },
+        sf::Text{ sf::String{"Press  '+' to add new car in scene"}, font },
+        sf::Text{ sf::String{"Press  '-' to remove one car from scene"}, font }
     };
 
     float panelWidth{ GameConstants::ScreenInfo::WIDTH - paddings * 2 };
