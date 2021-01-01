@@ -49,6 +49,7 @@ void ScreenManager::start() {
     handler.start();
 
     drawThread.reset(new std::thread(drawloop, std::ref(handler)));
+    eventThread.reset(new std::thread(eventloop, std::ref(handler)));
 }
 
 void ScreenManager::stop() {
@@ -66,6 +67,7 @@ void ScreenManager::stop() {
 
 void ScreenManager::wait() {
     drawThread->join();
+    eventThread->join();
 }
 
 GuardedScreen ScreenManager::getScreen() {
@@ -113,17 +115,28 @@ void ScreenManager::drawloop(ScreenManager::ThreadHandler &handler) {
         win->display();
     };
 
+    while(handler.isRunning()) {
+        if(!screen.second->isOpen()) {
+            continue;
+        }
+        update();
+        redraw();
+    }
+}
+
+void ScreenManager::eventloop(ScreenManager::ThreadHandler &handler) {
+    GuardedScreen screen = getScreenManager()->getScreen();
+
     sf::Event event;
     while(handler.isRunning()) {
         if(!screen.second->isOpen()) {
             continue;
         }
+        std::lock_guard l(screen.first);
         while(screen.second->pollEvent(event)) {
             getEventHandler().pull(event);
         }
         getEventHandler().pull(EventType::Update);
-        update();
-        redraw();
     }
 }
 
