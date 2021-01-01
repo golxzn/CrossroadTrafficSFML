@@ -3,12 +3,14 @@
 #include "ICar.h"
 
 namespace GameConstants {
-    constexpr int   centreStrip{ 5 };
+    constexpr int   centreStrip{ 10 };
     constexpr int   initialCarsCount{ 5 };
     constexpr int   defaultFuel{ 50000 }; // in ml
-    constexpr float defaultSpeed{ 0.1f };
-    constexpr float defaultRange{ 10 };
+    constexpr float defaultSpeed{ 0.05f };
     constexpr float defaultSpeedChain{ 0.01f };
+    constexpr float maxCarSpeed{ 5.f };
+    constexpr float minCarSpeed{ 0.001f };
+    constexpr float defaultRange{ 10 };
     constexpr size_t maxCarsCount{ 15 };
     constexpr size_t minCarsCount{ 2 };
 
