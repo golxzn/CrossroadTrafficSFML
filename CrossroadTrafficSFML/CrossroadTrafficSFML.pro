@@ -35,7 +35,6 @@ SOURCES +=                      \
     cars/HybridEngineCar.cpp    \
     cars/Cars.cpp               \
     game/Game.cpp               \
-    game/GameComponents.cpp     \
     handlers/eventhandler.cpp   \
     screen/scene.cpp            \
     screen/screenmgr.cpp        \
@@ -51,7 +50,6 @@ HEADERS +=                      \
     cars/HybridEngineCar.h      \
     cars/Cars.h                 \
     game/Game.h                 \
-    game/GameComponents.h       \
     game/GameConstants.h        \
     handlers/eventhandler.h     \
     screen/scene.h              \
@@ -81,21 +79,16 @@ LIBS += -L$$SFML_ROOT_DIR/lib
 
 if(contains(PLATFORM, "linux")) {
     SFML_LIBS_DEBUG =   \
-        -lsfml-audio    \
         -lsfml-system   \
         -lsfml-window   \
         -lsfml-graphics
     SFML_LIBS_RELEASE = $$SFML_LIBS_DEBUG
 } else {
     SFML_LIBS_DEBUG =   \
-        -lsfml-main     \
-        -lsfml-audio    \
         -lsfml-system   \
         -lsfml-window   \
         -lsfml-graphics
     SFML_LIBS_RELEASE = \
-        -lsfml-main-d   \
-        -lsfml-audio-d  \
         -lsfml-window-d \
         -lsfml-system-d \
         -lsfml-graphics-d
