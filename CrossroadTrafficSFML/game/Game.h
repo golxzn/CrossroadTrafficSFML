@@ -1,6 +1,5 @@
 #pragma once
 
-#include "GameComponents.h"
 #include "screenmgr.h"
 #include "scene.h"
 #include "userinterface.h"

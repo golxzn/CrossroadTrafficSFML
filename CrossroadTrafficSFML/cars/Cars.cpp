@@ -35,6 +35,9 @@ void Cars::moveCars() {
 }
 
 void Cars::makeCarsFaster() {
+    if(mCarsSpeed > GameConstants::maxCarSpeed) {
+        return;
+    }
     mCarsSpeed += GameConstants::defaultSpeedChain;
 
     for(auto& car : mCarsCont) {
@@ -43,6 +46,9 @@ void Cars::makeCarsFaster() {
 }
 
 void Cars::makeCarsSlower() {
+    if(mCarsSpeed < GameConstants::minCarSpeed) {
+        return;
+    }
     mCarsSpeed -= GameConstants::defaultSpeedChain;
 
     for(auto& car : mCarsCont) {

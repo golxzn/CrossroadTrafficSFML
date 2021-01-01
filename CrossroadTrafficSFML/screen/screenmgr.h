@@ -34,6 +34,7 @@ private:
     std::mutex targetsGuard;
     std::map<id_t, DrawablePtr> drawTargets;
     std::unique_ptr<std::thread> drawThread;
+    std::unique_ptr<std::thread> eventThread;
 
     std::map<id_t, DrawablePtr>::const_iterator find(id_t id) const;
 
@@ -51,6 +52,7 @@ private:
     } handler;
 
     static void drawloop(ThreadHandler &handler);
+    static void eventloop(ThreadHandler &handler);
 
     void onEvent(EventType type) override;
 };
