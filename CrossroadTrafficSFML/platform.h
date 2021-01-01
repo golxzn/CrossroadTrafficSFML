@@ -16,4 +16,9 @@
 //============= SFML =============//
 #include <SFML/Graphics.hpp>
 
+#ifdef WIN32
+    using uint = uint32_t;
+    using id_t = int32_t;
+#endif
+
 #endif // PLATFORM_H
